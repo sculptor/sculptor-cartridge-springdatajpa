@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.sculptorgenerator</groupId>
+		<artifactId>sculptor-cartridges</artifactId>
+		<version>3.1.0</version>
+	</parent>
+	<artifactId>sculptor-cartridge-springdatajpa</artifactId>
+	<version>3.1.1-SNAPSHOT</version>
+	<name>Sculptor :: Cartridges :: Spring Data JPA</name>
+
+	<scm>
+		<url>https://github.com/sculptor/sculptor-cartridge-springdatajpa.git</url>
+		<connection>scm:git:https://github.com/sculptor/sculptor-cartridge-springdatajpa.git</connection>
+		<developerConnection>scm:git:https://github.com/sculptor/sculptor-cartridge-springdatajpa.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<issueManagement>
+		<url>https://github.com/sculptor/sculptor-cartridge-springdatajpa/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
+	<inceptionYear>2015</inceptionYear>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+		    <id>tjuerge</id>
+		    <name>Torsten Juergeleit</name>
+		    <email>torsten.juergeleit@gmail.com</email>
+		    <roles>
+				<role>Project-Manager</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<properties>
+		<sculptor-version>3.1.0</sculptor-version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}/src/main/xtend-gen</directory>
+							<excludes>
+								<exclude>.gitignore</exclude>
+							</excludes>
+						</fileset>
+						<fileset>
+							<directory>${basedir}/src/test/xtend-gen</directory>
+							<excludes>
+								<exclude>.gitignore</exclude>
+							</excludes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/src/main/xtend-gen</outputDirectory>
+							<testOutputDirectory>${basedir}/src/test/xtend-gen</testOutputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<!-- Needed to run SculptorGeneratorRunner because
+						ContextClassLoaderAwareRuntimeResourceSetInitializer 
+						needs access to the thread context classloader -->
+					<useSystemClassLoader>true</useSystemClassLoader>
+					<useManifestOnlyJar>false</useManifestOnlyJar>
+					<!-- Run every test class in a newly forked JVM -->
+					<reuseForks>false</reuseForks>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.sculptorgenerator</groupId>
+			<artifactId>sculptor-generator-library</artifactId>
+			<version>${sculptor-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.sculptorgenerator</groupId>
+			<artifactId>sculptor-generator-test-library</artifactId>
+			<version>${sculptor-version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>
